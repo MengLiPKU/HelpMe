@@ -1,12 +1,11 @@
-from flask import Flask
+import os
+from app import create_app, db
+from flask_migrate import Migrate
+from flask_script import Manager
 
-app = Flask(__name__)
-
-
-@app.route('/')
-def index():
-    return '<h1>hello world!</h1>'
-
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+manager = Manager(app)
+migrate = Migrate(app, db)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    manager.run()
